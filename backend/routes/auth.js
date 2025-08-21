@@ -62,7 +62,7 @@ router.post("/forgot-password", async (req, res) => {
       process.env.JWT_SECRET,
       {expiresIn:"15m"}
     )
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;`
     const nodemailer = require("nodemailer")
     const transporter = nodemailer.createTransport({
       service: "gmail",
