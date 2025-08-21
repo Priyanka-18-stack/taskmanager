@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,8 +30,8 @@ export default function App() {
     return "";
   };
 
-  // Fetch tasks from backend
-  const fetchTasks = async () => {
+  // Wrap fetchTasks in useCallback to avoid re-creating it every render
+  const fetchTasks = useCallback(async () => {
     try {
       const res = await axios.get(`${API_URL}/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -40,11 +40,12 @@ export default function App() {
     } catch (err) {
       console.log(err.response?.data);
     }
-  };
+  }, [token]);
 
+  // Netlify-safe useEffect
   useEffect(() => {
     if (token) fetchTasks();
-  }, [token]);
+  }, [fetchTasks]);
 
   // Save or update task
   const handleSave = async () => {
