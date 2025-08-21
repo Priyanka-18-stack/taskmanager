@@ -11,15 +11,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Serve React frontend (static files)
-const buildPath = path.join(__dirname, "../frontend/build");
+// Serve Vite frontend (static files)
+const buildPath = path.join(__dirname, "../frontend/task/dist");
 app.use(express.static(buildPath));
 
 // API routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/tasks", require("./routes/tasks"));
 
-// Catch-all for React Router
+// Catch-all for React Router / Vite
 app.get("*", (req, res) => {
   res.sendFile(path.join(buildPath, "index.html"));
 });
