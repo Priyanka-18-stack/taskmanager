@@ -7,7 +7,7 @@ const app = express();
 
 // Replace with your Netlify frontend URL
 const allowedOrigins = [
-  "https://your-netlify-site.netlify.app"
+   "https://voluble-profiterole-0a266a.netlify.app"
 ];
 
 app.use(cors({
