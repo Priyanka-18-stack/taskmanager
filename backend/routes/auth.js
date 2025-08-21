@@ -91,7 +91,6 @@ router.post("/reset-password/:token", async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
     if (!user) return res.status(400).json({ error: "User not found" });
-    const bcrypt = require("bcryptjs");
     const hashedPassword = await bcrypt.hash(password, 10);
 
     user.password = hashedPassword;
