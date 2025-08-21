@@ -36,8 +36,8 @@ export default function App() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Ensure res.data is an array
-      setTask(Array.isArray(res.data) ? res.data : []);
+      // Use backend response key `tasks`
+      setTask(Array.isArray(res.data.tasks) ? res.data.tasks : []);
     } catch (err) {
       console.log(err.response?.data || err.message);
       setTask([]); // fallback
@@ -58,13 +58,13 @@ export default function App() {
           taskInput,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setTask(task.map((t) => (t._id === editId ? res.data : t)));
+        setTask(task.map((t) => (t._id === editId ? res.data.task : t)));
         setEditId(null);
       } else {
         const res = await axios.post(`${API_URL}/tasks`, taskInput, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setTask((prev) => [...prev, ...(Array.isArray(res.data) ? res.data : [res.data])]);
+        setTask((prev) => [...prev, res.data.task]);
       }
       setTaskInput({ title: "", description: "", status: "pending", priority: "none" });
     } catch (err) {
@@ -97,7 +97,7 @@ export default function App() {
         { status: updatedStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setTask((prev) => prev.map((t) => (t._id === id ? res.data : t)));
+      setTask((prev) => prev.map((t) => (t._id === id ? res.data.task : t)));
     } catch (err) {
       console.log(err.response?.data || err.message);
     }
