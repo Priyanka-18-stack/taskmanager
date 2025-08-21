@@ -3,6 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default function App() {
   const { token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ export default function App() {
   // Fetch tasks from backend
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/tasks", {
+      const res = await axios.get(`${API_URL}/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTask(res.data);
@@ -41,7 +43,7 @@ export default function App() {
   };
 
   useEffect(() => {
-   if (token) fetchTasks();
+    if (token) fetchTasks();
   }, [token]);
 
   // Save or update task
@@ -50,21 +52,17 @@ export default function App() {
 
     try {
       if (editId) {
-        // Update existing task
         const res = await axios.put(
-          `http://localhost:5000/api/tasks/${editId}`,
+          `${API_URL}/tasks/${editId}`,
           taskInput,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setTask(task.map((t) => (t._id === editId ? res.data : t)));
         setEditId(null);
       } else {
-        // Create new task
-        const res = await axios.post(
-          "http://localhost:5000/api/tasks",
-          taskInput,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const res = await axios.post(`${API_URL}/tasks`, taskInput, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setTask([...task, res.data]);
       }
       setTaskInput({ title: "", description: "", status: "pending", priority: "none" });
@@ -83,7 +81,7 @@ export default function App() {
   // Delete task
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`, {
+      await axios.delete(`${API_URL}/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTask(task.filter((t) => t._id !== id));
@@ -97,7 +95,7 @@ export default function App() {
     const updatedStatus = checked ? "done" : "pending";
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/tasks/${id}`,
+        `${API_URL}/tasks/${id}`,
         { status: updatedStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
