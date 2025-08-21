@@ -21,7 +21,7 @@ router.post("/",authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
   try {
      const tasks = await Task.find({userId:req.user.id }).sort({ updatedAt: -1 })
-     res.json(tasks);
+     res.json({ message: "Tasks fetched successfully", tasks });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch tasks" });
   }
