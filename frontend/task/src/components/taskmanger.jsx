@@ -30,24 +30,24 @@ export default function App() {
     return "";
   };
 
-  // Wrap fetchTasks in useCallback to avoid re-creating it every render
   const fetchTasks = useCallback(async () => {
     try {
       const res = await axios.get(`${API_URL}/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTask(res.data);
+
+      // Ensure res.data is an array
+      setTask(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      console.log(err.response?.data);
+      console.log(err.response?.data || err.message);
+      setTask([]); // fallback
     }
   }, [token]);
 
-  // Netlify-safe useEffect
   useEffect(() => {
     if (token) fetchTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, token]);
 
-  // Save or update task
   const handleSave = async () => {
     if (!taskInput.title.trim()) return;
 
@@ -64,34 +64,31 @@ export default function App() {
         const res = await axios.post(`${API_URL}/tasks`, taskInput, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setTask([...task, res.data]);
+        setTask((prev) => [...prev, ...(Array.isArray(res.data) ? res.data : [res.data])]);
       }
       setTaskInput({ title: "", description: "", status: "pending", priority: "none" });
     } catch (err) {
-      console.log(err.response?.data);
+      console.log(err.response?.data || err.message);
     }
   };
 
-  // Start editing
   const handleEdit = (id) => {
     const toEdit = task.find((t) => t._id === id);
-    setTaskInput(toEdit);
+    if (toEdit) setTaskInput(toEdit);
     setEditId(id);
   };
 
-  // Delete task
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTask(task.filter((t) => t._id !== id));
+      setTask((prev) => prev.filter((t) => t._id !== id));
     } catch (err) {
-      console.log(err.response?.data);
+      console.log(err.response?.data || err.message);
     }
   };
 
-  // Toggle status
   const handleStatusChange = async (id, checked) => {
     const updatedStatus = checked ? "done" : "pending";
     try {
@@ -100,24 +97,25 @@ export default function App() {
         { status: updatedStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setTask(task.map((t) => (t._id === id ? res.data : t)));
+      setTask((prev) => prev.map((t) => (t._id === id ? res.data : t)));
     } catch (err) {
-      console.log(err.response?.data);
+      console.log(err.response?.data || err.message);
     }
   };
 
-  // Sort tasks
-  const sortedTasks = [...task].sort((a, b) => {
-    const priorityOrder = { high: 3, starred: 2, normal: 1, none: 0 };
-    const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
-    if (priorityDiff !== 0) return priorityDiff;
+  const sortedTasks = Array.isArray(task)
+    ? [...task].sort((a, b) => {
+        const priorityOrder = { high: 3, starred: 2, normal: 1, none: 0 };
+        const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
+        if (priorityDiff !== 0) return priorityDiff;
 
-    const titleDiff = a.title.toLowerCase().localeCompare(b.title.toLowerCase());
-    if (titleDiff !== 0) return titleDiff;
+        const titleDiff = a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+        if (titleDiff !== 0) return titleDiff;
 
-    const statusOrder = { pending: 1, "in progress": 2, done: 3 };
-    return statusOrder[a.status] - statusOrder[b.status];
-  });
+        const statusOrder = { pending: 1, "in progress": 2, done: 3 };
+        return statusOrder[a.status] - statusOrder[b.status];
+      })
+    : [];
 
   return (
     <div className="max-w-md mx-auto p-4">
@@ -172,44 +170,45 @@ export default function App() {
         {editId ? "Update Task" : "Add Task"}
       </button>
 
-      {sortedTasks.map((t) => (
-        <div
-          key={t._id}
-          className={`p-4 border rounded mb-3 shadow-sm flex justify-between items-center ${
-            t.priority !== "none"
-              ? "border-purple-400 bg-purple-50"
-              : "border-gray-300 bg-white"
-          }`}
-        >
-          <div>
-            {t.priority !== "none" && (
-              <span className="text-xl mr-2">{getPriorityEmoji(t.priority)}</span>
-            )}
-            <span className="font-bold">{t.title}</span>
-            <p className="text-sm text-gray-600">{t.description}</p>
-            <div className="text-xs text-gray-500">Status: {t.status}</div>
+      {Array.isArray(sortedTasks) &&
+        sortedTasks.map((t) => (
+          <div
+            key={t._id}
+            className={`p-4 border rounded mb-3 shadow-sm flex justify-between items-center ${
+              t.priority !== "none"
+                ? "border-purple-400 bg-purple-50"
+                : "border-gray-300 bg-white"
+            }`}
+          >
+            <div>
+              {t.priority !== "none" && (
+                <span className="text-xl mr-2">{getPriorityEmoji(t.priority)}</span>
+              )}
+              <span className="font-bold">{t.title}</span>
+              <p className="text-sm text-gray-600">{t.description}</p>
+              <div className="text-xs text-gray-500">Status: {t.status}</div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <input
+                type="checkbox"
+                checked={t.status === "done"}
+                onChange={(e) => handleStatusChange(t._id, e.target.checked)}
+              />
+              <button
+                onClick={() => handleEdit(t._id)}
+                className="bg-yellow-300 px-2 py-1 rounded text-xs"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(t._id)}
+                className="bg-red-400 px-2 py-1 rounded text-xs text-white"
+              >
+                Delete
+              </button>
+            </div>
           </div>
-          <div className="flex flex-col gap-1">
-            <input
-              type="checkbox"
-              checked={t.status === "done"}
-              onChange={(e) => handleStatusChange(t._id, e.target.checked)}
-            />
-            <button
-              onClick={() => handleEdit(t._id)}
-              className="bg-yellow-300 px-2 py-1 rounded text-xs"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(t._id)}
-              className="bg-red-400 px-2 py-1 rounded text-xs text-white"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
 
       <hr className="my-4" />
       <div className="counter mt-4">
