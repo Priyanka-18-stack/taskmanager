@@ -11,16 +11,16 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Serve Vite frontend (dist folder)
-const buildPath = path.join(__dirname, "../frontend/task/dist");
+// Serve frontend build folder (Create React App)
+const buildPath = path.join(__dirname, "../frontend/task/build");
 app.use(express.static(buildPath));
 
 // API routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/tasks", require("./routes/tasks"));
 
-// Catch-all for frontend routes (but ignore API routes)
-app.get(/^\/(?!api).*/, (req, res) => {
+// Catch-all for frontend routes (must be after API routes)
+app.get("*", (req, res) => {
   res.sendFile(path.join(buildPath, "index.html"));
 });
 
