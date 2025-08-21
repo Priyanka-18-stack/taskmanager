@@ -12,7 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 // Serve React frontend (static files)
-app.use(express.static(path.join(__dirname, "frontend/build")));
+const buildPath = path.join(__dirname, "../frontend/build");
+app.use(express.static(buildPath));
 
 // API routes
 app.use("/api/auth", require("./routes/auth"));
@@ -20,7 +21,7 @@ app.use("/api/tasks", require("./routes/tasks"));
 
 // Catch-all for React Router
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/build", "index.html"));
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 // MongoDB connection and server start
