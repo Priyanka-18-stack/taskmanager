@@ -1,29 +1,45 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL, // your Vercel frontend URL
-    credentials: true,
-  })
-);
+// Allow multiple frontend origins
+const allowedOrigins = [
+  "https://taskmanager-otqc-git-main-priyankas-projects-c93a9431.vercel.app",
+  "https://taskmanager-ty8q-git-main-priyankas-projects-c93a9431.vercel.app"
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // allow requests with no origin (like Postman)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1) {
+      const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
+// Body parser
 app.use(express.json());
 
-// API routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/tasks", require("./routes/tasks"));
+// Serve static files (like manifest.json) publicly
+app.use(express.static(path.join(__dirname, "public")));
 
-// MongoDB connection and server start
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB Connected");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => console.log(err));
+// Example auth route
+app.post("/api/auth/login", (req, res) => {
+  const { email, password } = req.body;
+  // Dummy auth example
+  if(email === "test@test.com" && password === "1234") {
+    return res.json({ token: "fake-jwt-token" });
+  } else {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
