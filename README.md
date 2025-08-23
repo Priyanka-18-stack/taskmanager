@@ -37,7 +37,6 @@ Each user has a secure account where they can:
 - **Task Categories/Tags** → Organize tasks into categories for better productivity.  
 - **Dark Mode** → Add theme customization for better user experience.  
 - **Mobile App Version** → Extend functionality to a React Native mobile app.  
-## ⚙️ How to Install and Run the Project  
 ---
 ## ⚙️ How to Install and Run the Project 
 ### 🔹 Run Locally  
