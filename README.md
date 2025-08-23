@@ -39,48 +39,52 @@ Each user has a secure account where they can:
 - **Mobile App Version** → Extend functionality to a React Native mobile app.  
 ## ⚙️ How to Install and Run the Project  
 ---
+## ⚙️ How to Install and Run the Project  
+
 ### 🔹 Run Locally  
 
-- **Clone the Repository**
+- **Clone the Repository**  
   ```bash
   git clone https://github.com/your-username/task-manager.git
   cd task-manager
+Backend Setup
 
-  **Backend Setup**
+Navigate to backend folder
 
--**Navigate to backend folder**
+bash
+Copy
+Edit
+cd backend
+npm install
+Create .env file inside backend folder with:
 
--**cd backend
--**npm install
-
-
--**Create .env file inside backend folder with:
-
+ini
+Copy
+Edit
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
+Start backend server
 
+bash
+Copy
+Edit
+npm start
+Backend runs on → http://localhost:5000
 
-**Start backend server**
+Frontend Setup
 
--**npm start
+Navigate to frontend folder
 
+bash
+Copy
+Edit
+cd frontend
+npm install
+npm start
+Frontend runs on → http://localhost:3000
 
--**Backend runs on → http://localhost:5000
+🔹 Access Deployed Version
+Frontend (Netlify): 👉 https://voluble-profiterole-0a266a.netlify.app/home
 
-**Frontend Setup**
-
--**Navigate to frontend folder
-
--**cd frontend
--**npm install
--**npm start
----
-
--**Frontend runs on → http://localhost:3000
-
-###🔹 Access Deployed Version
-
--**Frontend (Netlify): 👉 https://voluble-profiterole-0a266a.netlify.app/home
-
--**Backend (Render): 👉 https://taskmanager-foya.onrender.com
+Backend (Render): 👉 https://taskmanager-foya.onrender.com
