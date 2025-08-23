@@ -119,3 +119,7 @@ If you want to test the project quickly, you can use:
 *(Or register your own account from the Register page.)*  
 
 ---
+## 🙌 Acknowledgements  
+Thanks for checking out this project. I’m always open to feedback and improvements. 
+⭐ If you found this useful, please give it a star to support my work!    
+
