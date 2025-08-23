@@ -73,12 +73,12 @@ Each user has a secure account where they can:
 - **Home Page**  
   ![Home Page]<img width="1536" height="806" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/c17f4ef7-74a9-4b4c-90f5-582a80a145d0" />
 
-- **Login Page**  
-  ![Login Page]<img width="1645" height="785" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/0315eca5-72da-4ee2-bd95-d21ae9f39a52" />
+- **Register Page**  
+  ![Register Page]<img width="1645" height="785" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/0315eca5-72da-4ee2-bd95-d21ae9f39a52" />
   
 
-- **Register Page**  
-  ![Register Page]<img width="1536" height="737" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/0ad8b458-1076-451c-b4e0-32a195233593" />
+- **Login page**  
+  ![login Page]<img width="1536" height="737" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/0ad8b458-1076-451c-b4e0-32a195233593" />
 
 - **Dashboard (Task Manager)**  
   ![Dashboard]<img width="1536" height="824" alt="Screenshot (17)" src="https://github.com/user-attachments/assets/9151700a-118c-4c8f-af21-a1cbb5de4f49" />
