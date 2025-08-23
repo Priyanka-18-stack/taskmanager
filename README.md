@@ -2,7 +2,7 @@
 
 ## 📌 Project Description  
 
-### 🔹 What the Application Does  
+### 🔹 Application Description
 The **Task Manager App** is a full-stack web application that allows users to register, log in, and manage their daily tasks.  
 Each user has a secure account where they can:  
 
@@ -13,7 +13,7 @@ Each user has a secure account where they can:
 
 ---
 
-### 🔹 Why I Used the Technologies  
+### 🔹  Technologies  Used
 - **React** → For building a fast, interactive, and responsive user interface. I chose React because of its component-based architecture and React Hooks, which make managing state simple.  
 - **TailwindCSS** → For clean and responsive styling with minimal custom CSS.  
 - **Node.js + Express.js** → To create a scalable and RESTful backend API. Express makes it easy to define routes and middleware for authentication and task management.  
