@@ -37,7 +37,6 @@ Each user has a secure account where they can:
 ### 🔹 Future Features to Implement  
 - **Due Dates & Reminders** → Notify users about upcoming or overdue tasks.  
 - **Search & Filter** → Allow searching tasks by keywords and filtering by status or date range.  
-- **Task Categories/Tags** → Organize tasks into categories for better productivity.  
 - **Dark Mode** → Add theme customization for better user experience.  
 - **Mobile App Version** → Extend functionality to a React Native mobile app.  
 ---
