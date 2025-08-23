@@ -1,4 +1,7 @@
-**Task Manager**
+# **Task Manager App**
+
+**_A full-stack application for managing tasks with authentication and CRUD features_**
+
 
 ## 📌 Project Description  
 
