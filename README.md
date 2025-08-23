@@ -85,3 +85,38 @@ Each user has a secure account where they can:
  
 
 ---
+## 🚀 How to Use the Project  
+
+### 🔹 Step 1: Register an Account  
+- Go to the **Register Page**.  
+- Enter your **email** and **password**.  
+- Your password will be securely hashed before saving in the database.  
+
+### 🔹 Step 2: Login  
+- Navigate to the **Login Page**.  
+- Enter your registered **email** and **password**.  
+- After login, a **JWT token** is generated and stored, allowing you to access your personal tasks.  
+
+### 🔹 Step 3: Manage Your Tasks  
+- **Add a Task** → Enter a title and description.  
+- **Update a Task** → Edit the title, description, or status.  
+- **Delete a Task** → Remove tasks you no longer need.  
+- **Mark Complete/Incomplete** → Track your task progress.  
+- **Pin Tasks** → Keep important tasks at the top.  
+- **Automatic Sorting** → Tasks are auto-sorted by pinned status → priority → alphabetical order.  
+
+### 🔹 Example Workflow  
+1. Login to your account.  
+2. Add a task: *“Complete Project Report”*.  
+3. Pin the task so it stays at the top.  
+4. Mark it as **complete** once done.  
+---
+
+### 🔹 Credentials (For Testing)  
+If you want to test the project quickly, you can use:  
+- **Email:** `testuser@example.com`  
+- **Password:** `123456`  
+
+*(Or register your own account from the Register page.)*  
+
+---
